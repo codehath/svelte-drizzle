@@ -12,21 +12,46 @@
 // 	ownerId: integer("owner_id").references(() => users.id),
 // });
 
-// // Mock the database
-// const db = drizzle({} as any);
-
 import {
 	boolean,
 	timestamp,
 	integer,
+	pgEnum,
 	pgTable,
+	serial,
+	uniqueIndex,
 	varchar,
 } from "drizzle-orm/pg-core";
 
+export const statusEnum = pgEnum("status", [
+	"pending",
+	"started",
+	"doing",
+	"paused",
+	"cancelled",
+]);
 export const todos = pgTable("todos", {
-	id: integer("id").primaryKey(),
+	id: serial("id").primaryKey(),
 	content: varchar("title", { length: 600 }).notNull(),
 	completed: boolean("completed").notNull().default(false),
 	createdAt: timestamp("created_at").defaultNow(),
-	paused: boolean("paused").notNull().default(false),
+	status: statusEnum("status").default("pending"),
 });
+
+// import { integer, pgEnum, pgTable, serial, uniqueIndex, varchar } from 'drizzle-orm/pg-core';
+// // declaring enum in database
+// export const popularityEnum = pgEnum('popularity', ['unknown', 'known', 'popular']);
+// export const countries = pgTable('countries', {
+//   id: serial('id').primaryKey(),
+//   name: varchar('name', { length: 256 }),
+// }, (countries) => {
+//   return {
+//     nameIndex: uniqueIndex('name_idx').on(countries.name),
+//   }
+// });
+// export const cities = pgTable('cities', {
+//   id: serial('id').primaryKey(),
+//   name: varchar('name', { length: 256 }),
+//   countryId: integer('country_id').references(() => countries.id),
+//   popularity: popularityEnum('popularity'),
+// });
