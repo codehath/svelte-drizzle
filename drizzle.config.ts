@@ -26,23 +26,40 @@
 // 	},
 // } as Config;
 
-import type { Config } from "drizzle-kit";
+// import type { Config } from "drizzle-kit";
+// import * as dotenv from "dotenv";
+// dotenv.config();
+// const { DATABASE_URL } = process.env;
+// if (!DATABASE_URL) {
+// 	throw new Error("No url");
+// }
 
-const host = "127.0.0.1";
-const port = 5432;
-const user = "farhath";
-const password = "";
-const database = "test";
-
-export default {
-	schema: "./src/lib/server/schema.ts",
-	out: "./drizzle",
-	driver: "pg",
-	dbCredentials: {
-		uri: `postgres://${user}:${password}@${host}/${database}`,
-	},
-} as Config;
+// export default {
+// 	schema: "./src/lib/server/schema.ts",
+// 	out: "./drizzle",
+// 	driver: "pg",
+// 	dbCredentials: {
+// 		uri: DATABASE_URL,
+// 	},
+// } as Config;
 
 // const client = new Client({
 //     connectionString= "postgres://user:password@host:port/db",
 //   });
+
+// drizzle.config.ts
+import type { Config } from "drizzle-kit";
+import * as dotenv from "dotenv";
+dotenv.config();
+const { DATABASE_URL } = process.env;
+if (!DATABASE_URL) {
+	throw new Error("No url");
+}
+export default {
+	schema: "./src/lib/server/schema.ts",
+	out: "./migrations",
+	driver: "pg",
+	dbCredentials: {
+		connectionString: DATABASE_URL,
+	},
+} satisfies Config;

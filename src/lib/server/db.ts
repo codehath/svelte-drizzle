@@ -85,11 +85,11 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 
 const client = new Client({
-	host: "127.0.0.1",
-	port: 5432,
-	user: "farhath",
-	password: "",
-	database: "test",
+	host: import.meta.env.VITE_DATABASE_HOST,
+	user: import.meta.env.VITE_DATABASE_USERNAME,
+	password: import.meta.env.VITE_DATABASE_PASSWORD,
+	database: import.meta.env.VITE_DATABASE_NAME,
 });
+
 await client.connect();
 const db = drizzle(client);

@@ -28,4 +28,5 @@ export const todos = pgTable("todos", {
 	content: varchar("title", { length: 600 }).notNull(),
 	completed: boolean("completed").notNull().default(false),
 	createdAt: timestamp("created_at").defaultNow(),
+	paused: boolean("paused").notNull().default(false),
 });
